@@ -1,0 +1,46 @@
+"""DjangoApp URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+
+# import routers 
+from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+
+# import everything from views 
+from apiHomes import views
+
+# define the router 
+router = routers.DefaultRouter() 
+
+# define the router path metrallapi4.
+# and viewset to be used 
+router.register(r'usuarios', views.UsuarioAppViewSet) 
+router.register(r'temperaturaCPU', views.TemperaturaCPUViewset)
+router.register(r'memoriaSistema', views.MemoriaSistemaViewset)
+router.register(r'arqSistema', views.ArquitecturaSistemaViewset)
+router.register(r'iotTempHum', views.HumedadTemperaturaExternaViewSet)
+router.register(r'statsWifi', views.StatsDeteccionesWifiViewSet)
+router.register(r'detectWifi', views.DeteccionesWifiViewSet)
+router.register(r'habitacion', views.HabitacionViewset)
+router.register(r'particulasAire', views.ParticulasAireViewset)
+
+urlpatterns = [
+    path('apiapp/admin/', admin.site.urls),
+    path('apiapp/api/v1/', include(router.urls)),
+    path('apiapp/api-token-auth/', obtain_auth_token, name='api_token_auth'),
+]
+
